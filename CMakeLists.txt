@@ -8,4 +8,8 @@ if (CMAKE_COMPILER_IS_GNUCC)
     add_compile_options(-std=c++11 -Wall -Werror -fsanitize=leak)
 endif ()
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/singleton/CMakeLists.txt)
+set(PATTERNS singleton)
+
+foreach (pattern IN ITEMS ${PATTERNS})
+    include(${CMAKE_CURRENT_SOURCE_DIR}/${pattern}/CMakeLists.txt)
+endforeach ()
