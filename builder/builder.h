@@ -46,10 +46,7 @@ namespace design_pattern::builder_design_pattern
     class Builder
     {
     public:
-        virtual ~Builder()
-        {
-            delete _objToBuild;
-        }
+        virtual ~Builder() = 0;
 
         virtual void BuildPartA() = 0;
 
