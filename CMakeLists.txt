@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (CMAKE_COMPILER_IS_GNUCC)
-    add_compile_options(-std=c++17 -Wall -Werror -fsanitize=leak)
+    add_compile_options(-std=c++17 -Wall -Werror)
 endif ()
 
 set(PATTERNS builder composite decorator singleton)
