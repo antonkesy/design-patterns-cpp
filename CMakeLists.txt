@@ -11,5 +11,5 @@ endif ()
 set(PATTERNS abstract_factory bridge builder composite decorator singleton)
 
 foreach (pattern IN ITEMS ${PATTERNS})
-    include(${CMAKE_CURRENT_SOURCE_DIR}/${pattern}/CMakeLists.txt)
+    include(${CMAKE_CURRENT_LIST_DIR}/${pattern}/CMakeLists.txt)
 endforeach ()
