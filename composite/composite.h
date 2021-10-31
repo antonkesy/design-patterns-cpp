@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-namespace design_pattern::composite_design_pattern {
+namespace design_pattern::composite {
 #ifndef DESIGN_PATTERN_CPP_COMPOSITE_H
 #define DESIGN_PATTERN_CPP_COMPOSITE_H
 

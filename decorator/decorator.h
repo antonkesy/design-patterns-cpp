@@ -1,6 +1,6 @@
 #include <iostream>
 
-namespace design_pattern::decorator_design_pattern
+namespace design_pattern::decorator
 {
 #ifndef DESIGN_PATTERN_CPP_DECORATOR_H
 #define DESIGN_PATTERN_CPP_DECORATOR_H

@@ -1,6 +1,6 @@
 #include <iostream>
 
-namespace design_pattern::bridge_design_pattern
+namespace design_pattern::bridge
 {
 #ifndef DESIGN_PATTERN_CPP_BRIDGE_H
 #define DESIGN_PATTERN_CPP_BRIDGE_H

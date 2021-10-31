@@ -1,6 +1,6 @@
 #include "../singleton.h"
 
-namespace design_pattern::singleton_design_pattern {
+namespace design_pattern::singleton {
 
     int example_usage()
     {
@@ -17,6 +17,6 @@ namespace design_pattern::singleton_design_pattern {
 
 int main()
 {
-    return design_pattern::singleton_design_pattern::example_usage();
+    return design_pattern::singleton::example_usage();
 }
 

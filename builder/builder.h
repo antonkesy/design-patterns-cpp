@@ -2,7 +2,7 @@
 #include <utility>
 #include <iostream>
 
-namespace design_pattern::builder_design_pattern
+namespace design_pattern::builder
 {
 #ifndef DESIGN_PATTERN_CPP_BUILDER_H
 #define DESIGN_PATTERN_CPP_BUILDER_H

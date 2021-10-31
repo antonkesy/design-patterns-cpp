@@ -2,7 +2,7 @@
 #include "../decorator.h"
 #include "example_decorator.h"
 
-namespace design_pattern::decorator_design_pattern
+namespace design_pattern::decorator
 {
 
     int example_usage_food()
@@ -40,8 +40,8 @@ namespace design_pattern::decorator_design_pattern
 
 int main()
 {
-    return design_pattern::decorator_design_pattern::example_usage_food() +
-           design_pattern::decorator_design_pattern::example_usage_generic();
+    return design_pattern::decorator::example_usage_food() +
+           design_pattern::decorator::example_usage_generic();
 }
 
 

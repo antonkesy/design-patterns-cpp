@@ -1,6 +1,6 @@
 #include "../composite.h"
 
-namespace design_pattern::composite_design_pattern {
+namespace design_pattern::composite {
 
     int example_usage() {
         Composite bike;
@@ -51,7 +51,7 @@ namespace design_pattern::composite_design_pattern {
 }
 
 int main() {
-    return design_pattern::composite_design_pattern::example_usage();
+    return design_pattern::composite::example_usage();
 }
 
 

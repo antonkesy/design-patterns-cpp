@@ -1,4 +1,4 @@
-namespace design_pattern::singleton_design_pattern {
+namespace design_pattern::singleton {
 #ifndef DESIGN_PATTERN_CPP_SINGLETON_H
 #define DESIGN_PATTERN_CPP_SINGLETON_H
 

@@ -2,7 +2,7 @@
 #include <utility>
 #include <iostream>
 
-namespace design_pattern::abstract_factory_design_pattern
+namespace design_pattern::abstract_factory
 {
 #ifndef DESIGN_PATTERN_CPP_ABSTRACT_FACTORY_H
 #define DESIGN_PATTERN_CPP_ABSTRACT_FACTORY_H

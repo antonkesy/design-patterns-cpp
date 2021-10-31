@@ -1,6 +1,6 @@
 #include "../builder.h"
 
-namespace design_pattern::builder_design_pattern
+namespace design_pattern::builder
 {
 
     int example_usage()
@@ -17,7 +17,7 @@ namespace design_pattern::builder_design_pattern
 
 int main()
 {
-    return design_pattern::builder_design_pattern::example_usage();
+    return design_pattern::builder::example_usage();
 }
 
 

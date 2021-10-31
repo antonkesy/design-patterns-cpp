@@ -1,7 +1,7 @@
 #include "../bridge.h"
 #include "example_bridge.h"
 
-namespace design_pattern::bridge_design_pattern
+namespace design_pattern::bridge
 {
 
     int example_usage()
@@ -40,8 +40,8 @@ namespace design_pattern::bridge_design_pattern
 
 int main()
 {
-    return design_pattern::bridge_design_pattern::example_usage() +
-           design_pattern::bridge_design_pattern::list_example_usage();
+    return design_pattern::bridge::example_usage() +
+           design_pattern::bridge::list_example_usage();
 }
 
 

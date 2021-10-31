@@ -1,6 +1,6 @@
 #include "../abstract_factory.h"
 
-namespace design_pattern::abstract_factory_design_pattern
+namespace design_pattern::abstract_factory
 {
 
     int example_usage()
@@ -23,7 +23,7 @@ namespace design_pattern::abstract_factory_design_pattern
 
 int main()
 {
-    return design_pattern::abstract_factory_design_pattern::example_usage();
+    return design_pattern::abstract_factory::example_usage();
 }
 
 
