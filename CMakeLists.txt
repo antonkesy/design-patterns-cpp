@@ -8,7 +8,7 @@ if (CMAKE_COMPILER_IS_GNUCC)
     add_compile_options(-std=c++17 -Wall -Werror)
 endif ()
 
-set(PATTERNS bridge builder composite decorator singleton)
+set(PATTERNS abstract_factory bridge builder composite decorator singleton)
 
 foreach (pattern IN ITEMS ${PATTERNS})
     include(${CMAKE_CURRENT_SOURCE_DIR}/${pattern}/CMakeLists.txt)
