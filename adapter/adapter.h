@@ -21,8 +21,11 @@ namespace design_pattern::adapter
     public:
         void SpecificRequest()
         {
-            std::cout << "specific request" << std::endl;
+            std::cout << _value << std::endl;
         }
+
+    private:
+        std::string _value = "specific request";
     };
 
     //Adapter which allows the client to use Adaptee functions
