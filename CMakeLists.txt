@@ -8,7 +8,7 @@ if (CMAKE_COMPILER_IS_GNUCC)
     add_compile_options(-std=c++17 -Wall -Werror)
 endif ()
 
-set(PATTERNS abstract_factory adapter bridge builder composite decorator factory_method prototype singleton)
+set(PATTERNS abstract_factory adapter bridge builder composite decorator facade factory_method prototype singleton)
 
 foreach (pattern IN ITEMS ${PATTERNS})
     include(${CMAKE_CURRENT_LIST_DIR}/${pattern}/CMakeLists.txt)
