@@ -19,6 +19,7 @@ set(PATTERNS
         factory_method
         flyweight
         prototype
+        proxy
         singleton
         )
 
