@@ -13,6 +13,7 @@ set(PATTERNS
         adapter
         bridge
         builder
+        chain_of_responsibility
         composite
         decorator
         facade
