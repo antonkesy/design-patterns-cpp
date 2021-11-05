@@ -21,6 +21,7 @@ set(PATTERNS
         factory_method
         flyweight
         interpreter
+        iterator
         prototype
         proxy
         singleton
