@@ -20,6 +20,7 @@ set(PATTERNS
         facade
         factory_method
         flyweight
+        interpreter
         prototype
         proxy
         singleton
