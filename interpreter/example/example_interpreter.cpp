@@ -18,6 +18,7 @@ namespace design_pattern::interpreter
         std::cout << context.Get("A") << "&&" << context.Get("B") << '=' << expression->Interpret(context)
                   << std::endl;
 
+        delete expression;
         return 0;
     }
 
