@@ -14,6 +14,7 @@ set(PATTERNS
         bridge
         builder
         chain_of_responsibility
+        command
         composite
         decorator
         facade
