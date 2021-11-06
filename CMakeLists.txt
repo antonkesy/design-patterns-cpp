@@ -22,6 +22,7 @@ set(PATTERNS
         flyweight
         interpreter
         iterator
+        mediator
         prototype
         proxy
         singleton
