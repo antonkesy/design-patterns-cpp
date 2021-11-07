@@ -24,6 +24,7 @@ set(PATTERNS
         iterator
         mediator
         memento
+        observer
         prototype
         proxy
         singleton
