@@ -28,6 +28,7 @@ set(PATTERNS
         prototype
         proxy
         singleton
+        state
         )
 
 foreach (pattern IN ITEMS ${PATTERNS})
