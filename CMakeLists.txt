@@ -23,6 +23,7 @@ set(PATTERNS
         interpreter
         iterator
         mediator
+        memento
         prototype
         proxy
         singleton
