@@ -29,6 +29,7 @@ set(PATTERNS
         proxy
         singleton
         state
+        strategy
         )
 
 foreach (pattern IN ITEMS ${PATTERNS})
