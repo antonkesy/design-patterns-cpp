@@ -21,6 +21,7 @@ set(PATTERNS
         mediator
         memento
         null_object
+        object_pool
         observer
         prototype
         proxy
