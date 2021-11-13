@@ -20,6 +20,7 @@ set(PATTERNS
         iterator
         mediator
         memento
+        null_object
         observer
         prototype
         proxy
