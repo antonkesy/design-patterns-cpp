@@ -4,10 +4,6 @@ project(design_pattern_cpp VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if (CMAKE_COMPILER_IS_GNUCC)
-    add_compile_options(-std=c++17 -Wall -Werror)
-endif ()
-
 set(PATTERNS
         abstract_factory
         adapter
@@ -35,4 +31,5 @@ set(PATTERNS
 
 foreach (pattern IN ITEMS ${PATTERNS})
     add_executable(${pattern}_example ${pattern}/example/example_${pattern}.cpp)
+    target_compile_options(${pattern}_example PRIVATE -Wall)
 endforeach ()
