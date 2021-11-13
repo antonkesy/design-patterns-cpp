@@ -33,5 +33,5 @@ set(PATTERNS
         )
 
 foreach (pattern IN ITEMS ${PATTERNS})
-    include(${CMAKE_CURRENT_LIST_DIR}/${pattern}/CMakeLists.txt)
+    add_executable(${pattern}_example ${pattern}/example/example_${pattern}.cpp)
 endforeach ()
