@@ -30,6 +30,7 @@ set(PATTERNS
         singleton
         state
         strategy
+        template_method
         )
 
 foreach (pattern IN ITEMS ${PATTERNS})
