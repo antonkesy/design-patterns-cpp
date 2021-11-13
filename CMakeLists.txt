@@ -27,6 +27,7 @@ set(PATTERNS
         state
         strategy
         template_method
+        visitor
         )
 
 foreach (pattern IN ITEMS ${PATTERNS})
