@@ -1,4 +1,4 @@
-# design-pattern-cpp
+# design-patterns-cpp
 
 _Object-oriented_ design patterns are solution templates for recurring patterns/problems in software development.
 
