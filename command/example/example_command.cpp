@@ -1,20 +1,10 @@
 #include "../command.h"
 
-namespace design_pattern::command
-{
+int main() {
+    using design_pattern::command::Client;
 
-    int example_usage()
-    {
-        Client c;
-        c.DoSomething();
-        return 0;
-    }
+    Client c;
+    c.DoSomething();
 
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::command::example_usage();
-}
-
-
