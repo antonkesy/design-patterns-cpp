@@ -1,14 +1,14 @@
-#include <string>
-#include <iostream>
-
-namespace design_pattern::adapter
-{
 #ifndef DESIGN_PATTERN_CPP_ADAPTER_H
 #define DESIGN_PATTERN_CPP_ADAPTER_H
 
+#include <string>
+#include <iostream>
+#include <memory>
+
+namespace design_pattern::adapter {
+
     //interface which gets called by client
-    class Target
-    {
+    class Target {
     public:
         virtual ~Target() = default;
 
@@ -16,12 +16,10 @@ namespace design_pattern::adapter
     };
 
     //Class with other implementation which can be only accessed through the adapter
-    class Adaptee
-    {
+    class Adaptee {
     public:
-        void SpecificRequest()
-        {
-            std::cout << _value << std::endl;
+        void SpecificRequest() {
+            std::cout << _value << "\n";
         }
 
     private:
@@ -29,27 +27,21 @@ namespace design_pattern::adapter
     };
 
     //Adapter which allows the client to use Adaptee functions
-    class Adapter : public Target
-    {
+    class Adapter : public Target {
     public:
-        Adapter()
-        {
-            _adaptee = new Adaptee;
+        Adapter() {
+            adaptee_ = std::make_unique<Adaptee>();
         }
 
-        ~Adapter() override
-        {
-            delete _adaptee;
-        }
+        ~Adapter() override = default;
 
-        void Request() override
-        {
-            _adaptee->SpecificRequest();
+        void Request() override {
+            adaptee_->SpecificRequest();
         }
 
     private:
-        Adaptee* _adaptee = nullptr;
+        std::unique_ptr<Adaptee> adaptee_;
     };
 
-#endif
 }
+#endif
