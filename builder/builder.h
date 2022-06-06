@@ -1,33 +1,29 @@
-#include <string>
-#include <utility>
-#include <iostream>
-
-namespace design_pattern::builder
-{
 #ifndef DESIGN_PATTERN_CPP_BUILDER_H
 #define DESIGN_PATTERN_CPP_BUILDER_H
 
+#include <string>
+#include <utility>
+#include <iostream>
+#include <memory>
+
+namespace design_pattern::builder {
     //placeholder class with possible different attribute values to showcase Builder
-    class ObjectToBuild
-    {
+    class ObjectToBuild {
     public:
         ObjectToBuild() = default;
 
         ~ObjectToBuild() = default;
 
-        void SetValue(int value)
-        {
-            _value = value;
+        void SetValue(int value) {
+            value_ = value;
         }
 
-        void PrintInfo()
-        {
-            std::cout << _name << " " << _value << std::endl;
+        void PrintInfo() {
+            std::cout << name_ << " " << value_ << "\n";
         }
 
-        void SetName(const char* string)
-        {
-            _name = string;
+        void SetName(const char *string) {
+            name_ = string;
         }
 
         /*
@@ -35,18 +31,17 @@ namespace design_pattern::builder
          */
 
     private:
-        std::string _name;
-        int _value = 0;
+        std::string name_;
+        int value_ = 0;
 
         /*
          * ...
          */
     };
 
-    class Builder
-    {
+    class Builder {
     public:
-        virtual ~Builder() = 0;
+        virtual ~Builder() = default;
 
         virtual void BuildPartA() = 0;
 
@@ -56,36 +51,28 @@ namespace design_pattern::builder
          * ...
          */
 
-        ObjectToBuild* GetResult()
-        {
-            return _objToBuild;
+        ObjectToBuild &GetResult() {
+            return *objToBuild_;
         };
 
     protected:
-        ObjectToBuild* _objToBuild = nullptr;
+        std::shared_ptr<ObjectToBuild> objToBuild_;
     };
 
-    class ConcreteBuilderX : public Builder
-    {
+    class ConcreteBuilderX : public Builder {
     public:
-        ConcreteBuilderX()
-        {
-            _objToBuild = new ObjectToBuild;
+        ConcreteBuilderX() {
+            objToBuild_ = std::make_unique<ObjectToBuild>();
         }
 
-        ~ConcreteBuilderX() override
-        {
-            delete _objToBuild;
+        ~ConcreteBuilderX() override = default;
+
+        void BuildPartA() override {
+            objToBuild_->SetName("X-A");
         }
 
-        void BuildPartA() override
-        {
-            _objToBuild->SetName("X-A");
-        }
-
-        void BuildPartB() override
-        {
-            _objToBuild->SetValue(42);
+        void BuildPartB() override {
+            objToBuild_->SetValue(42);
         }
 
         /*
@@ -93,27 +80,20 @@ namespace design_pattern::builder
          */
     };
 
-    class ConcreteBuilderY : public Builder
-    {
+    class ConcreteBuilderY : public Builder {
     public:
-        ConcreteBuilderY()
-        {
-            _objToBuild = new ObjectToBuild;
+        ConcreteBuilderY() {
+            objToBuild_ = std::make_unique<ObjectToBuild>();
         }
 
-        ~ConcreteBuilderY() override
-        {
-            delete _objToBuild;
+        ~ConcreteBuilderY() override = default;
+
+        void BuildPartA() override {
+            objToBuild_->SetName("Y-A");
         }
 
-        void BuildPartA() override
-        {
-            _objToBuild->SetName("Y-A");
-        }
-
-        void BuildPartB() override
-        {
-            _objToBuild->SetValue(73);
+        void BuildPartB() override {
+            objToBuild_->SetValue(73);
         }
 
         /*
@@ -121,45 +101,30 @@ namespace design_pattern::builder
          */
     };
 
-    class Director
-    {
+    class Director {
     public:
-        explicit Director(Builder* builder) : _builder(builder)
-        {}
+        explicit Director(Builder &builder) : builder_(builder) {}
 
-        virtual ~Director()
-        {
-            delete _builder;
-        }
+        virtual ~Director() = default;
 
-        void Construct()
-        {
-            if (_builder == nullptr)
-            {
-                return;
-            }
-            _builder->BuildPartA();
-            _builder->BuildPartB();
+        void Construct() {
+            builder_.BuildPartA();
+            builder_.BuildPartB();
 
             /*
              * ...
              */
 
-            _builder->GetResult()->PrintInfo();
+            builder_.GetResult().PrintInfo();
         }
 
-        void SetBuilder(Builder* builder)
-        {
-            if (_builder != nullptr)
-            {
-                delete _builder;
-            }
-            _builder = builder;
+        void SetBuilder(Builder &builder) {
+            builder_ = builder;
         }
 
     private:
-        Builder* _builder = nullptr;
+        Builder &builder_;
     };
 
-#endif
 }
+#endif
