@@ -1,14 +1,12 @@
 #include "../bridge.h"
 #include "example_bridge.h"
 
-namespace design_pattern::bridge
-{
+namespace design_pattern::bridge {
 
-    int example_usage()
-    {
+    int example_usage() {
         Abstraction a(false);
         a.Operation();
-        a.SetImplementor(new ConcreteImplementorB);
+        a.SetImplementor(std::make_unique<ConcreteImplementorB>());
         a.Operation();
 
         RefinedAbstraction ra;
@@ -17,12 +15,10 @@ namespace design_pattern::bridge
         return 0;
     }
 
-    bool is_list_holder_correct(bool isList)
-    {
+    bool is_list_holder_correct(bool isList) {
         ListHolder<int> lh1(isList ? 500 : 50);
         int testValues[] = {1, 2, 3, 4, 5, 6};
-        for (int& testValue: testValues)
-        {
+        for (int &testValue: testValues) {
             lh1.AddElement(testValue);
         }
 
@@ -32,14 +28,12 @@ namespace design_pattern::bridge
         return deleted_value != lh1[3];
     }
 
-    int list_example_usage()
-    {
+    int list_example_usage() {
         return (is_list_holder_correct(true) && is_list_holder_correct(false)) ? 0 : 1;
     }
 }
 
-int main()
-{
+int main() {
     return design_pattern::bridge::example_usage() +
            design_pattern::bridge::list_example_usage();
 }
