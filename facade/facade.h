@@ -1,28 +1,25 @@
-#include <iostream>
-#include <string>
-
-namespace design_pattern::facade
-{
 #ifndef DESIGN_PATTERN_CPP_FACADE_H
 #define DESIGN_PATTERN_CPP_FACADE_H
 
-    class ComponentA
-    {
+#include <iostream>
+#include <string>
+#include <memory>
+
+namespace design_pattern::facade {
+
+    class ComponentA {
     public:
-        void OperationA()
-        {
-            std::cout << _name << std::endl;
+        void OperationA() {
+            std::cout << _name << "\n";
         }
 
     private:
         std::string _name = "Component A";
     };
 
-    class ComponentB
-    {
+    class ComponentB {
     public:
-        void OperationB()
-        {
+        void OperationB() {
             std::cout << _name << std::endl;
         }
 
@@ -30,31 +27,24 @@ namespace design_pattern::facade
         std::string _name = "Component B";
     };
 
-    class Facade
-    {
+    class Facade {
     public:
-        Facade()
-        {
-            _componentA = new ComponentA;
-            _componentB = new ComponentB;
+        Facade() {
+            componentA_ = std::make_unique<ComponentA>();
+            componentB_ = std::make_unique<ComponentB>();
         }
 
-        ~Facade()
-        {
-            delete _componentA;
-            delete _componentB;
-        }
+        ~Facade() = default;
 
-        void Operation()
-        {
-            _componentA->OperationA();
-            _componentB->OperationB();
+        void Operation() {
+            componentA_->OperationA();
+            componentB_->OperationB();
         }
 
     private:
-        ComponentA* _componentA;
-        ComponentB* _componentB;
+        std::unique_ptr<ComponentA> componentA_;
+        std::unique_ptr<ComponentB> componentB_;
     };
 
-#endif
 }
+#endif

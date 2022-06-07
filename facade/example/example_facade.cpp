@@ -1,21 +1,10 @@
 #include "../facade.h"
 
-namespace design_pattern::facade
-{
+int main() {
+    using design_pattern::facade::Facade;
 
-    int example_usage()
-    {
-        Facade f;
-        f.Operation();
+    Facade f;
+    f.Operation();
 
-        return 0;
-    }
-
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::facade::example_usage();
-}
-
-
