@@ -1,58 +1,52 @@
-#include <iostream>
-#include <list>
-
-namespace design_pattern::observer
-{
 #ifndef DESIGN_PATTERN_CPP_OBSERVER_H
 #define DESIGN_PATTERN_CPP_OBSERVER_H
 
-    class Observer
-    {
+#include <iostream>
+#include <list>
+#include <memory>
+
+namespace design_pattern::observer {
+
+    class Observer {
     public:
+        virtual ~Observer() = default;
+
         virtual void Update() = 0;
     };
 
-    class Subject
-    {
+    class Subject {
     public:
-        void Attach(Observer* observer_to_add)
-        {
-            _observer.push_back(observer_to_add);
+        void Attach(const std::shared_ptr<Observer> &observer_to_add) {
+            observer_.push_back(observer_to_add);
         }
 
-        void Detach(Observer* observer_to_detach)
-        {
-            _observer.remove(observer_to_detach);
+        void Detach(const std::shared_ptr<Observer> &observer_to_detach) {
+            observer_.remove(observer_to_detach);
         }
 
-        void Notify()
-        {
-            for (const auto& item: _observer)
-            {
+        void Notify() {
+            for (const auto &item: observer_) {
                 item->Update();
             }
         }
 
     private:
-        std::list<Observer*> _observer;
+        std::list<std::shared_ptr<Observer >> observer_;
     };
 
-    class ConcreteObserver : public Observer
-    {
+    class ConcreteObserver : public Observer {
     public:
-        explicit ConcreteObserver(int id) : _id(id)
-        {}
+        explicit ConcreteObserver(int id) : id_(id) {}
 
         ~ConcreteObserver() = default;
 
-        void Update() override
-        {
-            std::cout << "update observer id = " << _id << std::endl;
+        void Update() override {
+            std::cout << "update observer id = " << id_ << "\n";
         }
 
     private:
-        int _id;
+        int id_;
     };
 
-#endif
 }
+#endif

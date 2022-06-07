@@ -1,42 +1,33 @@
 #include "../observer.h"
 
-namespace design_pattern::observer
-{
-    int example_usage()
-    {
-        ConcreteObserver observer1(1);
-        ConcreteObserver observer2(2);
-        ConcreteObserver observer3(3);
-        Subject subject;
+int main() {
+    using design_pattern::observer::ConcreteObserver;
+    using design_pattern::observer::Subject;
 
-        //nothing gets updated -> nothing observes
-        subject.Notify();
+    auto observer1 = std::make_shared<ConcreteObserver>(1);
+    auto observer2 = std::make_shared<ConcreteObserver>(2);
+    auto observer3 = std::make_shared<ConcreteObserver>(3);
+    Subject subject;
 
-        subject.Attach(&observer1);
-        subject.Attach(&observer2);
+    //nothing gets updated -> nothing observes
+    subject.Notify();
 
-        //updates 2
-        subject.Notify();
-        std::cout << std::endl;
+    subject.Attach(observer1);
+    subject.Attach(observer2);
 
-        subject.Attach(&observer3);
+    //updates 2
+    subject.Notify();
+    std::cout << std::endl;
 
-        //all 3 observer get updated
-        subject.Notify();
-        std::cout << std::endl;
+    subject.Attach(observer3);
 
-        subject.Detach(&observer1);
-        //updates only 2-3
-        subject.Notify();
+    //all 3 observer get updated
+    subject.Notify();
+    std::cout << std::endl;
 
-        return 0;
-    }
+    subject.Detach(observer1);
+    //updates only 2-3
+    subject.Notify();
 
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::observer::example_usage();
-}
-
-
