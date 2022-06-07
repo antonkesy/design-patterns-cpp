@@ -1,12 +1,11 @@
-namespace design_pattern::singleton {
 #ifndef DESIGN_PATTERN_CPP_SINGLETON_H
 #define DESIGN_PATTERN_CPP_SINGLETON_H
 
-    class Singleton
-    {
+namespace design_pattern::singleton {
+
+    class Singleton {
     public:
-        static Singleton& getSingleton()
-        {
+        static Singleton &getSingleton() {
             //lazy initialization
             static Singleton INSTANCE;
             return INSTANCE;
@@ -14,13 +13,12 @@ namespace design_pattern::singleton {
 
         ~Singleton() = default;
 
-        Singleton(Singleton const&) = delete;
+        Singleton(Singleton const &) = delete;
 
-        void operator=(Singleton const&) = delete;
+        void operator=(Singleton const &) = delete;
 
     private:
         Singleton() = default;
     };
-
-#endif
 }
+#endif
