@@ -1,22 +1,10 @@
 #include "../adapter.h"
 
-namespace design_pattern::adapter
-{
+int main() {
+    using design_pattern::adapter::Adapter;
 
-    int example_usage()
-    {
-        Target* target = new Adapter;
-        target->Request();
+    Adapter target;
+    target.Request();
 
-        delete target;
-        return 0;
-    }
-
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::adapter::example_usage();
-}
-
-

@@ -1,93 +1,73 @@
-#include <iostream>
-
-namespace design_pattern::command
-{
 #ifndef DESIGN_PATTERN_CPP_COMMAND_H
 #define DESIGN_PATTERN_CPP_COMMAND_H
 
-    class Receiver
-    {
+#include <iostream>
+#include <memory>
+
+namespace design_pattern::command {
+
+    class Receiver {
     public:
-        void Action() const
-        {
-            std::cout << "action " << std::endl;
+        void Action() const {
+            std::cout << "action " << randomValue_ << "\n";
         }
+
+    private:
+        int randomValue_ = 42;
     };
 
-    class Command
-    {
+    class Command {
     public:
         virtual ~Command() = default;
 
         virtual void Execute() = 0;
 
-    protected:
-        Command() = default;
     };
 
-    class ConcreteCommand : public Command
-    {
+    class ConcreteCommand : public Command {
     public:
-        explicit ConcreteCommand(Receiver* receiver) : _receiver(receiver)
-        {}
+        explicit ConcreteCommand(Receiver &receiver) : receiver_(receiver) {}
 
-        ~ConcreteCommand() override
-        {
-            delete _receiver;
-        }
+        ~ConcreteCommand() override = default;
 
-        void Execute() override
-        {
-            _receiver->Action();
+        void Execute() override {
+            receiver_.Action();
         }
 
     private:
-        Receiver* _receiver;
+        Receiver &receiver_;
     };
 
-    class Invoker
-    {
+    class Invoker {
     public:
-        //Command could also be set with setter
-        explicit Invoker(Command* command) : _command(command)
-        {}
+        explicit Invoker(Command &command) : command_(command) {}
 
-        ~Invoker()
-        {
-            delete _command;
-        }
+        virtual ~Invoker() = default;
 
-        void Invoke()
-        {
-            _command->Execute();
+        void Invoke() {
+            command_.Execute();
         }
 
     private:
-        Command* _command;
+        Command &command_;
     };
 
-    class Client
-    {
+    class Client {
     public:
-        ~Client()
-        {
-            delete _invoker;
+        explicit Client() : command_(receiver_), invoker_(command_) {
         }
 
-        explicit Client()
-        {
-            auto command = new ConcreteCommand(new Receiver);
-            _invoker = new Invoker(command);
-        }
+        virtual ~Client() = default;
 
-        void DoSomething()
-        {
-            _invoker->Invoke();
+        void DoSomething() {
+            invoker_.Invoke();
         }
 
     private:
-        Invoker* _invoker;
+        Receiver receiver_;
+        ConcreteCommand command_;
+        Invoker invoker_;
     };
 
-#endif
 }
+#endif

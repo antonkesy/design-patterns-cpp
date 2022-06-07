@@ -1,23 +1,17 @@
 #include "../builder.h"
 
-namespace design_pattern::builder
-{
+int main() {
+    using design_pattern::builder::Director;
+    using design_pattern::builder::ConcreteBuilderX;
+    using design_pattern::builder::ConcreteBuilderY;
 
-    int example_usage()
-    {
-        Director director(new ConcreteBuilderX);
-        director.Construct();
-        director.SetBuilder(new ConcreteBuilderY);
-        director.Construct();
+    ConcreteBuilderX builderX;
+    Director director(builderX);
+    director.Construct();
 
-        return 0;
-    }
+    ConcreteBuilderY builderY;
+    director.SetBuilder(builderY);
+    director.Construct();
 
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::builder::example_usage();
-}
-
-

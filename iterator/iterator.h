@@ -1,57 +1,49 @@
-namespace design_pattern::iterator
-{
 #ifndef DESIGN_PATTERN_CPP_ITERATOR_H
 #define DESIGN_PATTERN_CPP_ITERATOR_H
+
+#include <memory>
+#include <vector>
+
+namespace design_pattern::iterator {
 
     template<class T>
     class Iterator;
 
     template<class T>
-    class Aggregate
-    {
+    class Aggregate {
     public:
         virtual ~Aggregate() = default;
 
-        virtual Iterator<T>* CreateIterator() = 0;
+        virtual std::unique_ptr<Iterator<T>> CreateIterator() = 0;
     };
 
     template<class T>
-    class ConcreteAggregate : public Aggregate<T>
-    {
+    class ConcreteAggregate : public Aggregate<T> {
     public:
-        explicit ConcreteAggregate(const std::size_t size)
-        {
-            _elements = new int[size]();
-            _size = size;
+        explicit ConcreteAggregate(const std::size_t size) {
+            elements_.resize(size);
         }
 
-        ~ConcreteAggregate() override
-        {
-            delete[] _elements;
+        ~ConcreteAggregate() override = default;
+
+        std::unique_ptr<Iterator<T>> CreateIterator() override;
+
+        std::size_t Size() {
+            return elements_.size();
         }
 
-        Iterator<T>* CreateIterator() override;
-
-        std::size_t Size()
-        {
-            return _size;
-        }
-
-        T& operator[](std::size_t index)
-        {
-            return _elements[index];
+        T &operator[](std::size_t index) {
+            return elements_.at(index);
         }
 
 
     private:
-        T* _elements;
-        std::size_t _size;
+        std::vector<T> elements_;
     };
 
 
     template<class T>
-    class Iterator
-    {
+    class Iterator {
     public:
         virtual ~Iterator() = default;
 
@@ -61,53 +53,44 @@ namespace design_pattern::iterator
 
         virtual bool IsDone() = 0;
 
-        virtual T& CurrentItem() = 0;
+        virtual T &CurrentItem() = 0;
     };
 
 
     template<class T>
-    class ConcreteIterator : public Iterator<T>
-    {
+    class ConcreteIterator : public Iterator<T> {
     public:
-        explicit ConcreteIterator(ConcreteAggregate<T>* aggregate) : _aggregate(aggregate), _index(0U)
-        {}
+        explicit ConcreteIterator(ConcreteAggregate<T> &aggregate) : aggregate_(aggregate), index_(0U) {}
 
         ~ConcreteIterator() override = default;
 
-        void First() override
-        {
-            _index = 0;
+        void First() override {
+            index_ = 0;
         }
 
-        void Next() override
-        {
-            ++_index;
+        void Next() override {
+            ++index_;
         }
 
-        bool IsDone() override
-        {
-            return _index >= _aggregate->Size();
+        bool IsDone() override {
+            return index_ >= aggregate_.Size();
         }
 
-        T& CurrentItem() override
-        {
-            if (IsDone())
-            {
+        T &CurrentItem() override {
+            if (IsDone()) {
                 throw std::out_of_range::exception();
             }
-            return _aggregate->operator[](_index);
+            return aggregate_[index_];
         }
 
     private:
-        ConcreteAggregate<T>* _aggregate;
-        std::size_t _index;
+        ConcreteAggregate<T> &aggregate_;
+        std::size_t index_;
     };
 
     template<class T>
-    Iterator<T>* ConcreteAggregate<T>::CreateIterator()
-    {
-        return new ConcreteIterator<T>(this);
+    std::unique_ptr<Iterator<T>> ConcreteAggregate<T>::CreateIterator() {
+        return std::make_unique<ConcreteIterator<T>>(*this);
     }
-
-#endif
 }
+#endif

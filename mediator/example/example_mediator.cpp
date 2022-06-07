@@ -1,27 +1,21 @@
 #include "../mediator.h"
 
-namespace design_pattern::mediator
-{
-    int example_usage()
-    {
-        ConcreteMediator mediator;
-        Colleague* c1 = new ConcreteColleague(&mediator, 1U);
-        Colleague* c2 = new ConcreteColleague(&mediator, 2U);
-        Colleague* c3 = new ConcreteColleague(&mediator, 3U);
-        mediator.Add(c1);
-        mediator.Add(c2);
-        mediator.Add(c3);
+int main() {
+    using design_pattern::mediator::Colleague;
+    using design_pattern::mediator::ConcreteColleague;
+    using design_pattern::mediator::ConcreteMediator;
 
-        c1->Send(42);
-        c2->Send(73);
-        return 0;
-    }
+    ConcreteMediator mediator;
+    ConcreteColleague c1(mediator, 1U);
+    ConcreteColleague c2(mediator, 2U);
+    ConcreteColleague c3(mediator, 3U);
 
+    mediator.Add(std::make_shared<ConcreteColleague>(c1));
+    mediator.Add(std::make_shared<ConcreteColleague>(c2));
+    mediator.Add(std::make_shared<ConcreteColleague>(c3));
+
+    c1.Send(42);
+    c2.Send(73);
+
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::mediator::example_usage();
-}
-
-

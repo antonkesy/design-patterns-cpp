@@ -1,78 +1,65 @@
-#include <iostream>
-
-namespace design_pattern::prototype
-{
 #ifndef DESIGN_PATTERN_CPP_PROTOTYPE_H
 #define DESIGN_PATTERN_CPP_PROTOTYPE_H
 
-    class Prototype
-    {
+#include <iostream>
+#include <memory>
+
+namespace design_pattern::prototype {
+
+    class Prototype {
     public:
         virtual ~Prototype() = default;
 
-        virtual Prototype* Clone() = 0;
+        virtual std::unique_ptr<Prototype> Clone() = 0;
 
         virtual void PrintInfo() = 0;
     };
 
-    class ConcretePrototype1 : public Prototype
-    {
+    class ConcretePrototype1 : public Prototype {
     public:
         ~ConcretePrototype1() override = default;
 
-        ConcretePrototype1* Clone() override
-        {
+        std::unique_ptr<Prototype> Clone() override {
             //flat copy is enough here
-            return new ConcretePrototype1;
+            return std::make_unique<ConcretePrototype1>(*this);
         }
 
-        void PrintInfo() override
-        {
-            std::cout << "P1" << std::endl;
+        void PrintInfo() override {
+            std::cout << "P1\n";
         }
     };
 
-    class ConcretePrototype2 : public Prototype
-    {
+    class ConcretePrototype2 : public Prototype {
     public:
         ~ConcretePrototype2() override = default;
 
-        ConcretePrototype2* Clone() override
-        {
+        std::unique_ptr<Prototype> Clone() override {
             //flat copy is enough here
-            return new ConcretePrototype2;
+            return std::make_unique<ConcretePrototype2>(*this);
         }
 
-        void PrintInfo() override
-        {
-            std::cout << "P2" << std::endl;
+        void PrintInfo() override {
+            std::cout << "P2\n";
         }
     };
 
-    class Client
-    {
+    class Client {
     public:
-        explicit Client(Prototype* prototype) : _prototype(prototype)
-        {}
+        explicit Client(Prototype &prototype) : prototype_(prototype) {}
 
-        ~Client()
-        {
-            delete _prototype;
-        }
+        ~Client() = default;
 
-        void Operation()
-        {
-            Prototype* clone = _prototype->Clone();
+        void Operation() {
+            auto clone = prototype_.Clone();
             /*
              * ... do something with clone
              */
             clone->PrintInfo();
-            delete clone;
         }
 
     private:
-        Prototype* _prototype = nullptr;
+        Prototype &prototype_;
     };
 
-#endif
 }
+#endif

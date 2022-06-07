@@ -1,22 +1,12 @@
 #include "../factory_method.h"
 
-namespace design_pattern::factory_method
-{
+int main() {
+    using design_pattern::factory_method::ConcreteCreator;
+    using design_pattern::factory_method::Product;
 
-    int example_usage()
-    {
-        ConcreteCreator creator;
-        Product* p = creator.FactoryMethod();
-        p->PrintValue();
+    ConcreteCreator creator;
+    auto p = creator.FactoryMethod();
+    p->PrintValue();
 
-        return 0;
-    }
-
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::factory_method::example_usage();
-}
-
-

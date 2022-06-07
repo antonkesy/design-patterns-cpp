@@ -1,89 +1,70 @@
-#include <iostream>
-#include <vector>
-#include <map>
-
-namespace design_pattern::object_pool
-{
 #ifndef DESIGN_PATTERN_CPP_OBJECT_POOL_H
 #define DESIGN_PATTERN_CPP_OBJECT_POOL_H
 
-    class Reusable
-    {
+#include <iostream>
+#include <vector>
+#include <map>
+#include <memory>
+
+namespace design_pattern::object_pool {
+
+    class Reusable {
     public:
-        explicit Reusable(size_t id) : _id(id)
-        {}
+        explicit Reusable(size_t id) : id_(id) {}
 
         ~Reusable() = default;
 
-        size_t GetID() const
-        {
-            return _id;
+        [[nodiscard]] size_t GetID() const {
+            return id_;
         }
 
-        bool operator==(const Reusable& other) const
-        {
-            return _id == other.GetID();
+        bool operator==(const Reusable &other) const {
+            return id_ == other.GetID();
         }
 
     private:
-        const size_t _id;
+        const size_t id_;
     };
 
-    class ReusablePool
-    {
+    class ReusablePool {
     public:
-        explicit ReusablePool(size_t pool_start_size)
-        {
-            for (size_t i = 0U; i < pool_start_size; ++i)
-            {
-                _pool.push_back(GetNewReusable(i));
+        explicit ReusablePool(size_t pool_start_size) {
+            for (size_t i = 0U; i < pool_start_size; ++i) {
+                pool_.push_back(GetNewReusable(i));
             }
         }
 
-        ~ReusablePool()
-        {
-            for (const auto& item: _pool)
-            {
-                delete item.second;
-            }
-        }
+        ~ReusablePool() = default;
 
-        Reusable* GetReusable()
-        {
+        std::shared_ptr<Reusable> GetReusable() {
             //check if there is any available reusable
-            for (auto& it: _pool)
-            {
-                if (it.first)
-                {
+            for (auto &it: pool_) {
+                if (it.first) {
                     it.first = false;
                     return it.second;
                 }
             }
             //if none available
-            auto new_pair = GetNewReusable(_pool.size());
+            auto new_pair = GetNewReusable(pool_.size());
             new_pair.first = false;
-            _pool.push_back(new_pair);
+            pool_.push_back(new_pair);
             return new_pair.second;
         }
 
-        void ReleaseReusable(Reusable* reusable)
-        {
-            for (auto& it: _pool)
-            {
-                if (it.second == reusable)
-                {
+        void ReleaseReusable(Reusable &reusable) {
+            for (auto &it: pool_) {
+                if (*it.second == reusable) {
                     it.first = true;
-                    break;
+                    return;
                 }
             }
         }
 
     private:
-        std::vector<std::pair<bool, Reusable*>> _pool{}; //bool == isAvailable
+        std::vector<std::pair<bool, std::shared_ptr<Reusable >>> pool_{}; //bool == isAvailable
 
-        static std::pair<bool, Reusable*> GetNewReusable(size_t id)
-        {
-            return std::make_pair<bool, Reusable*>(true, new Reusable(id));
+        static std::pair<bool, std::shared_ptr<Reusable >> GetNewReusable(size_t id) {
+            return {true, std::make_shared<Reusable>(id)};
         }
     };
 

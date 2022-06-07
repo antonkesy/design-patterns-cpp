@@ -1,17 +1,15 @@
-#include <iostream>
-
-namespace design_pattern::template_method
-{
 #ifndef DESIGN_PATTERN_CPP_TEMPLATE_METHOD_H
 #define DESIGN_PATTERN_CPP_TEMPLATE_METHOD_H
 
-    class AbstractClass
-    {
+#include <iostream>
+
+namespace design_pattern::template_method {
+
+    class AbstractClass {
     public:
         virtual ~AbstractClass() = default;
 
-        void TemplateMethod()
-        {
+        void TemplateMethod() {
             PrimitiveOperation1();
             PrimitiveOperation2();
         }
@@ -22,21 +20,18 @@ namespace design_pattern::template_method
 
     };
 
-    class ConcreteClass : public AbstractClass
-    {
+    class ConcreteClass : public AbstractClass {
     public:
         ~ConcreteClass() override = default;
 
-        void PrimitiveOperation1() override
-        {
-            std::cout << "concrete primitive op 1" << std::endl;
+        void PrimitiveOperation1() override {
+            std::cout << "concrete primitive op 1\n";
         }
 
-        void PrimitiveOperation2() override
-        {
-            std::cout << "concrete primitive op 2" << std::endl;
+        void PrimitiveOperation2() override {
+            std::cout << "concrete primitive op 2\n";
         }
     };
 
-#endif
 }
+#endif

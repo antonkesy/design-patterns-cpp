@@ -1,47 +1,20 @@
-#include <iostream>
 #include "../decorator.h"
-#include "example_decorator.h"
 
-namespace design_pattern::decorator
-{
+int main() {
+    using design_pattern::decorator::Component;
+    using design_pattern::decorator::ConcreteComponent;
+    using design_pattern::decorator::Decorator;
 
-    int example_usage_food()
-    {
-        FoodComponent* burger = new Burger();
+    ConcreteComponent last("last");
 
-        //dynamically add decorator to burger
-        burger = new Salad(burger);
-        burger = new Meat(burger);
-        burger = new Salad(burger);
+    //dynamically add decorator
+    Decorator second(last, "second");
+    Decorator first(second, "first");
 
-        //call operation for all children (for example get price)
-        std::cout << burger->getPrice() << std::endl;
+    //call operation for all children
+    first.Operation();
 
-        delete burger;
-
-        return 0;
-    }
-
-    int example_usage_generic()
-    {
-        Component* baseComponent = new ConcreteComponent("base");
-
-        baseComponent = new Decorator(baseComponent);
-        baseComponent = new Decorator(baseComponent);
-        baseComponent = new Decorator(baseComponent);
-
-        baseComponent->Operation();
-
-        delete baseComponent;
-        return 0;
-    }
-
-}
-
-int main()
-{
-    return design_pattern::decorator::example_usage_food() +
-           design_pattern::decorator::example_usage_generic();
+    return 0;
 }
 
 

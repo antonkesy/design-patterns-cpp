@@ -1,67 +1,54 @@
-#include <iostream>
-#include <string>
-
-namespace design_pattern::chain_of_responsibility
-{
 #ifndef DESIGN_PATTERN_CPP_CHAIN_OF_RESPONSIBILITY_H
 #define DESIGN_PATTERN_CPP_CHAIN_OF_RESPONSIBILITY_H
 
-    enum TypeOfProblem
-    {
+#include <iostream>
+#include <string>
+#include <memory>
+#include <utility>
+
+namespace design_pattern::chain_of_responsibility {
+
+    enum TypeOfProblem {
         TYP1,
         TYP2
     };
 
-    class Handler
-    {
+    class Handler {
     public:
-        explicit Handler(Handler* successor, TypeOfProblem type_to_handle) : _successor(successor),
-                                                                             _types_to_handle(type_to_handle)
-        {}
+        Handler(std::shared_ptr<Handler> successor, TypeOfProblem type_to_handle) : successor_(std::move(successor)),
+                                                                                    types_to_handle_(type_to_handle) {}
 
-        virtual ~Handler()
-        {
-            delete _successor;
-        }
+        virtual ~Handler() = default;
 
-        virtual void HandleRequest(TypeOfProblem& problem_type)
-        {
-            if (_types_to_handle == problem_type)
-            {
+        virtual void HandleRequest(TypeOfProblem &problem_type) {
+            if (types_to_handle_ == problem_type)
                 HandleRequestSelf();
-            } else if (_successor)
-            {
-                _successor->HandleRequest(problem_type);
-            }
+            else if (successor_)
+                successor_->HandleRequest(problem_type);
         };
 
     private:
-        Handler* _successor;
-        TypeOfProblem _types_to_handle;
+        std::shared_ptr<Handler> successor_;
+        TypeOfProblem types_to_handle_;
 
         virtual void HandleRequestSelf() = 0;
 
     };
 
-    class ConcreteHandler : public Handler
-    {
+    class ConcreteHandler : public Handler {
     public:
-        explicit ConcreteHandler(Handler* successor, TypeOfProblem typeToHandle, std::string name) : Handler(successor,
-                                                                                                             typeToHandle),
-                                                                                                     _name(std::move(
-                                                                                                             name))
-        {}
+        explicit ConcreteHandler(std::shared_ptr<Handler> successor, TypeOfProblem typeToHandle, std::string name) :
+                Handler(std::move(successor), typeToHandle), name_(std::move(name)) {}
 
         ~ConcreteHandler() override = default;
 
     private:
-        void HandleRequestSelf() override
-        {
-            std::cout << _name << std::endl;
+        void HandleRequestSelf() override {
+            std::cout << name_ << "\n";
         }
 
-        std::string _name;
+        std::string name_;
     };
 
-#endif
 }
+#endif

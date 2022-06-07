@@ -1,12 +1,12 @@
-#include <iostream>
-
-namespace design_pattern::factory_method
-{
 #ifndef DESIGN_PATTERN_CPP_FACTORY_METHOD_H
 #define DESIGN_PATTERN_CPP_FACTORY_METHOD_H
 
-    class Product
-    {
+#include <iostream>
+#include <memory>
+
+namespace design_pattern::factory_method {
+
+    class Product {
     public:
         virtual ~Product() = default;
 
@@ -16,41 +16,30 @@ namespace design_pattern::factory_method
         int _value = 0;
     };
 
-    class ConcreteProduct : public Product
-    {
+    class ConcreteProduct : public Product {
     public:
-        ConcreteProduct()
-        { _value = 42; }
+        ConcreteProduct() { _value = 42; }
 
         ~ConcreteProduct() override = default;
 
-        void PrintValue()
-        {
-            std::cout << _value << std::endl;
+        void PrintValue() override {
+            std::cout << _value << "\n";
         }
     };
 
-    class Creator
-    {
+    class Creator {
     public:
-        virtual Product* FactoryMethod() = 0;
+        virtual std::unique_ptr<Product> FactoryMethod() = 0;
     };
 
-    class ConcreteCreator : public Creator
-    {
+    class ConcreteCreator : public Creator {
     public:
-        ConcreteCreator()
-        {
-            _product = new ConcreteProduct;
+        ConcreteCreator() = default;
+
+        std::unique_ptr<Product> FactoryMethod() override {
+            return std::make_unique<ConcreteProduct>();
         }
 
-        ConcreteProduct* FactoryMethod() override
-        {
-            return _product;
-        }
-
-    private:
-        ConcreteProduct* _product;
     };
 
 #endif

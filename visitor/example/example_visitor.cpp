@@ -1,29 +1,22 @@
 #include "../visitor.h"
 
-namespace design_pattern::visitor
-{
-    int example_usage()
-    {
-        ConcreteElementA elementA;
-        ConcreteElementB elementB;
+int main() {
+    using design_pattern::visitor::ConcreteVisitor1;
+    using design_pattern::visitor::ConcreteVisitor2;
+    using design_pattern::visitor::ConcreteElementA;
+    using design_pattern::visitor::ConcreteElementB;
 
-        ConcreteVisitor1 visitor1;
-        ConcreteVisitor2 visitor2;
+    ConcreteElementA elementA;
+    ConcreteElementB elementB;
 
-        elementA.Accept(visitor1);
-        elementA.Accept(visitor2);
+    ConcreteVisitor1 visitor1;
+    ConcreteVisitor2 visitor2;
 
-        elementB.Accept(visitor1);
-        elementB.Accept(visitor2);
+    elementA.Accept(visitor1);
+    elementA.Accept(visitor2);
 
-        return 0;
-    }
+    elementB.Accept(visitor1);
+    elementB.Accept(visitor2);
 
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::visitor::example_usage();
-}
-
-

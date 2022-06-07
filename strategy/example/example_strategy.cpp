@@ -1,24 +1,17 @@
 #include "../strategy.h"
 
-namespace design_pattern::strategy
-{
-    int example_usage()
-    {
-        Context context;
-        context.SetStrategy(new ConcreteStrategyA);
+int main() {
+    using design_pattern::strategy::Context;
+    using design_pattern::strategy::ConcreteStrategyA;
+    using design_pattern::strategy::ConcreteStrategyB;
 
-        context.UseStrategy();
+    Context context;
+    context.SetStrategy(std::make_unique<ConcreteStrategyA>());
 
-        context.SetStrategy(new ConcreteStrategyB);
-        context.UseStrategy();
-        return 0;
-    }
+    context.UseStrategy();
 
+    context.SetStrategy(std::make_unique<ConcreteStrategyB>());
+    context.UseStrategy();
+
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::strategy::example_usage();
-}
-
-

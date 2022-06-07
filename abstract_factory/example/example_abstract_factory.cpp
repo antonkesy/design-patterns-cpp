@@ -1,29 +1,15 @@
 #include "../abstract_factory.h"
 
-namespace design_pattern::abstract_factory
-{
+int main() {
+    using design_pattern::abstract_factory::Client;
 
-    int example_usage()
-    {
-        Client c(true);
+    Client c(true);
 
-        AbstractProductA* pa = c.CreateProductA();
-        AbstractProductB* pb = c.CreateProductB();
+    auto pa = c.CreateProductA();
+    auto pb = c.CreateProductB();
 
-        pa->PrintNameA();
-        pb->PrintNameB();
+    pa->PrintNameA();
+    pb->PrintNameB();
 
-        delete pa;
-        delete pb;
-
-        return 0;
-    }
-
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::abstract_factory::example_usage();
-}
-
-
