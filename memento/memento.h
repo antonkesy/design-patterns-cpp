@@ -1,23 +1,22 @@
+#ifndef DESIGN_PATTERN_CPP_MEMENTO_H
+#define DESIGN_PATTERN_CPP_MEMENTO_H
+
 #include <string>
 #include <utility>
 #include <list>
 #include <iostream>
+#include <memory>
 
-namespace design_pattern::memento
-{
-#ifndef DESIGN_PATTERN_CPP_MEMENTO_H
-#define DESIGN_PATTERN_CPP_MEMENTO_H
+namespace design_pattern::memento {
 
     //just a placeholder for simplicity
-    class State
-    {
+    class State {
     public:
         State() = default;
 
-        explicit State(std::string value) : value(std::move(value))
-        {}
+        explicit State(std::string value) : value(std::move(value)) {}
 
-        State& operator=(const State& other) = default;
+        State &operator=(const State &other) = default;
 
         std::string value;
         //...
@@ -26,8 +25,7 @@ namespace design_pattern::memento
     /*
      * stores and encapsulates the Originator object state
      */
-    class Memento
-    {
+    class Memento {
     public:
         virtual ~Memento() = default;
 
@@ -35,94 +33,74 @@ namespace design_pattern::memento
         //Memento should only be accessible from Originator
         friend class Originator;
 
-        explicit Memento(const State& state) : _state(state)
-        {}
+        explicit Memento(State &state) : state_(state) {}
 
-        State GetState()
-        {
-            return _state;
+        State &GetState() {
+            return state_;
         }
 
         //here redundant because state is always set in constructor
-        void SetState(const State& state)
-        {
-            _state = state;
+        void SetState(const State &state) {
+            state_ = state;
         }
 
     private:
-        State _state;
+        State &state_;
     };
 
     /*
      * creates memento snapshotting current internal states for restoring the internal state later
      */
-    class Originator
-    {
+    class Originator {
     public:
-        void SetMemento(Memento* memento)
-        {
-            _state = memento->GetState();
+        void SetMemento(Memento &memento) {
+            state_ = std::make_shared<State>(memento.GetState());
         }
 
-        Memento* CreateMemento()
-        {
-            return new Memento(_state);
-        }
-
-        //ONLY FOR EXAMPLE PURPOSE
-        void SetState(const State& state)
-        {
-            _state = state;
+        std::unique_ptr<Memento> CreateMemento() {
+            return std::unique_ptr<Memento>(new Memento(*state_));
         }
 
         //ONLY FOR EXAMPLE PURPOSE
-        State GetState()
-        {
-            return _state;
+        void SetState(std::shared_ptr<State> state) {
+            state_ = std::move(state);
+        }
+
+        //ONLY FOR EXAMPLE PURPOSE
+        std::shared_ptr<State> &GetState() {
+            return state_;
         }
 
     private:
-        State _state;
+        std::shared_ptr<State> state_;
     };
 
     /*
      * keeps mementos safe
      */
-    class Caretaker
-    {
+    class Caretaker {
     public:
-        explicit Caretaker(Originator* originator) : _originator(originator)
-        {}
+        explicit Caretaker(Originator &originator) : originator_(originator) {}
 
-        ~Caretaker()
-        {
-            for (const auto& item: _history)
-            {
-                delete item;
-            }
+        ~Caretaker() = default;
+
+        void Save() {
+            history_.push_back(originator_.CreateMemento());
         }
 
-        void Save()
-        {
-            _history.push_back(_originator->CreateMemento());
-        }
-
-        void Undo()
-        {
-            if (_history.empty())
-            {
-                std::cout << "no history" << std::endl;
+        void Undo() {
+            if (history_.empty()) {
+                std::cout << "no history\n";
             }
 
-            Memento* last_memento = _history.back();
-            _originator->SetMemento(last_memento);
-            _history.pop_back();
-            delete last_memento;
+            auto last_memento = std::move(history_.back());
+            originator_.SetMemento(*last_memento);
+            history_.pop_back();
         }
 
     private:
-        Originator* _originator;
-        std::list<Memento*> _history;
+        Originator &originator_;
+        std::list<std::unique_ptr<Memento >> history_;
     };
 
 #endif
