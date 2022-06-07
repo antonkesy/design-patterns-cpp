@@ -1,72 +1,52 @@
-#include <iostream>
-
-namespace design_pattern::proxy
-{
 #ifndef DESIGN_PATTERN_CPP_PROXY_H
 #define DESIGN_PATTERN_CPP_PROXY_H
 
+#include <iostream>
+#include <memory>
+
+namespace design_pattern::proxy {
+
     //interface what proxy has to forward to real subject
-    class Subject
-    {
+    class Subject {
     public:
         virtual ~Subject() = default;
 
         virtual void Request() = 0;
     };
 
-    class RealSubject : public Subject
-    {
+    class RealSubject : public Subject {
     public:
-        RealSubject()
-        {
-            std::cout << "RealSubject constructor" << std::endl;
+        RealSubject() {
+            std::cout << "RealSubject constructor\n";
         }
 
         ~RealSubject() override = default;
 
-        void Request() override
-        {
-            std::cout << "real subject request" << std::endl;
+        void Request() override {
+            std::cout << "real subject request\n";
         }
     };
 
     //manages real subject and access to it
-    class Proxy : public Subject
-    {
+    class Proxy : public Subject {
     public:
-        ~Proxy() override
-        {
-            delete _real_subject;
-        }
+        ~Proxy() override = default;
 
-        void Request() override
-        {
+        void Request() override {
+            std::cout << "request proxy\n";
             GetRealSubject()->Request();
         }
 
-        //could overload operators for easier access to subject object
-        RealSubject* operator->()
-        {
-            return GetRealSubject();
-        }
-
-        RealSubject operator*()
-        {
-            return *GetRealSubject();
-        }
-
     private:
-        RealSubject* GetRealSubject()
-        {
-            if (_real_subject == nullptr)
-            {
-                _real_subject = new RealSubject;
+        std::unique_ptr<RealSubject> &GetRealSubject() {
+            if (real_subject_ == nullptr) {
+                real_subject_ = std::make_unique<RealSubject>();
             }
-            return _real_subject;
+            return real_subject_;
         }
 
-        RealSubject* _real_subject = nullptr;
+        std::unique_ptr<RealSubject> real_subject_ = nullptr;
     };
 
-#endif
 }
+#endif
