@@ -1,48 +1,33 @@
 #include "../object_pool.h"
 
-namespace design_pattern::object_pool
-{
-#define EXAMPLE_POOL_START_SIZE 3
+int main() {
+    using design_pattern::object_pool::Reusable;
+    using design_pattern::object_pool::ReusablePool;
 
-    void PrintArrayContent(Reusable* arr[], size_t len)
-    {
-        for (size_t i = 0U; i < len; ++i)
-        {
-            std::cout << arr[i]->GetID() << std::endl;
-        }
-        std::cout << std::endl;
+    const auto pool_start_size = 3;
+    ReusablePool pool(pool_start_size);
+
+    std::array<std::shared_ptr<Reusable>, pool_start_size + 1> obj{};
+
+    for (int i = 0; i < pool_start_size; ++i) {
+        obj[i] = pool.GetReusable();
     }
 
-    int example_usage()
-    {
-        ReusablePool pool(EXAMPLE_POOL_START_SIZE);
+    auto print_array = [&] {
+        for (const auto &item: obj)
+            std::cout << item->GetID() << "\n";
+    };
 
-        Reusable* obj[EXAMPLE_POOL_START_SIZE + 1];
+    //release middle object
+    pool.ReleaseReusable(*obj[1]);
 
-        for (int i = 0; i < EXAMPLE_POOL_START_SIZE; ++i)
-        {
-            obj[i] = pool.GetReusable();
-        }
-        PrintArrayContent(obj, EXAMPLE_POOL_START_SIZE);
+    //reuse released object in other place
+    obj[pool_start_size] = pool.GetReusable();
 
-        //release middle object
-        pool.ReleaseReusable(obj[1]);
+    //force creating new object
+    obj[1] = pool.GetReusable();
 
-        //reuse released object in other place
-        obj[EXAMPLE_POOL_START_SIZE] = pool.GetReusable();
+    print_array();
 
-        //force creating new object
-        obj[1] = pool.GetReusable();
-
-        PrintArrayContent(obj, EXAMPLE_POOL_START_SIZE + 1);
-        return 0;
-    }
-
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::object_pool::example_usage();
-}
-
-
