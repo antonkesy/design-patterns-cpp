@@ -1,32 +1,23 @@
 #include "../interpreter.h"
 
-namespace design_pattern::interpreter
-{
+int main() {
+    using design_pattern::interpreter::AbstractExpression;
+    using design_pattern::interpreter::TerminalExpression;
+    using design_pattern::interpreter::NonTerminalExpression;
+    using design_pattern::interpreter::Context;
 
-    int example_usage()
-    {
-        AbstractExpression<bool>* a = new TerminalExpression<bool>("A");
-        AbstractExpression<bool>* b = new TerminalExpression<bool>("B");
+    TerminalExpression<bool> a("A");
+    TerminalExpression<bool> b("B");
 
-        //NonTerminal is AND here
-        AbstractExpression<bool>* expression = new NonTerminalExpression<bool>(a, b);
+    //NonTerminal is AND here
+    NonTerminalExpression<bool> expression(a, b);
 
-        Context<bool> context;
-        context.Set("A", true);
-        context.Set("B", false);
+    Context<bool> context;
+    context.Set("A", true);
+    context.Set("B", false);
 
-        std::cout << context.Get("A") << "&&" << context.Get("B") << '=' << expression->Interpret(context)
-                  << std::endl;
+    std::cout << context.Get("A") << "&&" << context.Get("B") << '=' << expression.Interpret(context)
+              << "\n";
 
-        delete expression;
-        return 0;
-    }
-
+    return 0;
 }
-
-int main()
-{
-    return design_pattern::interpreter::example_usage();
-}
-
-
