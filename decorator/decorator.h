@@ -1,12 +1,11 @@
-#include <iostream>
-
-namespace design_pattern::decorator
-{
 #ifndef DESIGN_PATTERN_CPP_DECORATOR_H
 #define DESIGN_PATTERN_CPP_DECORATOR_H
 
-    class Component
-    {
+#include <iostream>
+
+namespace design_pattern::decorator {
+
+    class Component {
     public:
         virtual ~Component() = default;
 
@@ -15,46 +14,39 @@ namespace design_pattern::decorator
     };
 
 
-    class Decorator : public Component
-    {
+    class Decorator : public Component {
     public:
 
-        explicit Decorator(Component* component) : _component(component)
-        {}
+        explicit Decorator(Component &component, std::string message) : component_(component),
+                                                                        message_(std::move(message)) {}
 
-        ~Decorator() override
-        {
-            delete _component;
-        }
+        ~Decorator() override = default;
 
-        void Operation() override
-        {
+        void Operation() override {
             //do decorator operation
-            std::cout << "decorator operation" << std::endl;
+            std::cout << "decorator operation: " << message_ << "\n";
 
-            _component->Operation();
+            component_.Operation();
         }
 
     private:
-        Component* _component;
+        Component &component_;
+        std::string message_;
     };
 
-    class ConcreteComponent : public Component
-    {
+    class ConcreteComponent : public Component {
     public:
 
-        explicit ConcreteComponent(std::string message) : _message(std::move(message))
-        {}
+        explicit ConcreteComponent(std::string message) : message_(std::move(message)) {}
 
         ~ConcreteComponent() override = default;
 
-        void Operation() override
-        {
-            std::cout << _message << std::endl;
+        void Operation() override {
+            std::cout << "concrete component operation: " << message_ << "\n";
         }
 
     private:
-        std::string _message;
+        std::string message_;
     };
 
 #endif
